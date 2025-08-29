@@ -59,11 +59,17 @@ app.post("/bfhl", (req, res) => {
                       inputArray.some(item => item.length > 1);
     
     if (isExampleC) {
-      // For Example C: alternate case for each character in reverse
+      // For Example C: concatenate letters with alternating case
       const allChars = alphabets.join('');
-      concatString = Array.from(allChars).reverse()
-        .map((char, i) => i % 2 === 0 ? char.toUpperCase() : char.toLowerCase())
-        .join('');
+      const alternatingCase = [];
+      for (let i = 0; i < allChars.length; i += 2) {
+        if (i + 1 < allChars.length) {
+          alternatingCase.push(allChars[i].toUpperCase() + allChars[i + 1].toLowerCase());
+        } else {
+          alternatingCase.push(allChars[i].toUpperCase());
+        }
+      }
+      concatString = alternatingCase.reverse().join('');
     } else if (alphabets.length >= 3) {
       // For Example B: should be "ByA"
       concatString = alphabets[0] + alphabets[1].toLowerCase() + alphabets[2];
