@@ -3,11 +3,7 @@ const bodyParser = require("body-parser");
 
 const app = express();
 const PORT = process.env.PORT || 3001;
-
-// Middleware
 app.use(bodyParser.json());
-
-// POST API for /bfhl
 app.post("/bfhl", (req, res) => {
   try {
     const inputArray = req.body.data;
@@ -29,10 +25,7 @@ app.post("/bfhl", (req, res) => {
     let sum = 0;
 
     for (let item of inputArray) {
-      // Convert item to string to handle all cases
       const strItem = String(item);
-      
-      // Check if it's a number
       if (!isNaN(strItem) && strItem.trim() !== "") {
         const num = Number(strItem);
         sum += num;
@@ -42,38 +35,25 @@ app.post("/bfhl", (req, res) => {
           oddNumbers.push(strItem);
         }
       } 
-      // Check if it's an alphabet (could be multiple characters)
       else if (/^[a-zA-Z]+$/.test(strItem)) {
         alphabets.push(strItem);
       } 
-      // Otherwise it's a special character
       else {
         specialCharacters.push(strItem);
       }
     }
-
-    // Create concatenated string based on input pattern
     let concatString = "";
-    
-    // For all cases, process the alphabets to create the concat_string
     if (alphabets.length > 0) {
-      // Combine all alphabet strings into one
       const allChars = alphabets.join('').split('');
-      
-      // Process characters in reverse order with alternating case
       for (let i = allChars.length - 1; i >= 0; i--) {
         const positionFromEnd = allChars.length - 1 - i;
         if (positionFromEnd % 2 === 0) {
-          // Even position from the end: uppercase
           concatString += allChars[i].toUpperCase();
         } else {
-          // Odd position from the end: lowercase
           concatString += allChars[i].toLowerCase();
         }
       }
     }
-
-    // Convert alphabets to uppercase for response
     const responseAlphabets = alphabets.map(a => a.toUpperCase());
 
     res.json({
@@ -95,15 +75,11 @@ app.post("/bfhl", (req, res) => {
     });
   }
 });
-
-// Optional: GET endpoint for testing (if required)
 app.get("/bfhl", (req, res) => {
   res.json({
     operation_code: 1
   });
 });
-
-// Start server
 app.listen(PORT, () => {
   console.log(`🚀 Server running at http://localhost:${PORT}`);
 });
