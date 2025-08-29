@@ -52,8 +52,8 @@ app.post("/bfhl", (req, res) => {
       }
     }
 
-    // Create concatenated string "Ra"
-    const concatString = "Ra";
+    // Create concatenated string from alphabets in reverse order
+    const concatString = alphabets.reverse().join("");
 
     res.json({
       is_success: true,
