@@ -29,10 +29,8 @@ app.post("/bfhl", (req, res) => {
     let sum = 0;
 
     for (let item of inputArray) {
-      // Convert item to string to handle all cases
       const strItem = String(item);
       
-      // Check if it's a number
       if (!isNaN(strItem) && strItem.trim() !== "") {
         const num = Number(strItem);
         sum += num;
@@ -42,44 +40,27 @@ app.post("/bfhl", (req, res) => {
           oddNumbers.push(strItem);
         }
       } 
-      // Check if it's an alphabet (could be multiple characters)
       else if (/^[a-zA-Z]+$/.test(strItem)) {
-        alphabets.push(strItem.toUpperCase());
+        alphabets.push(strItem);
       } 
-      // Otherwise it's a special character
       else {
         specialCharacters.push(strItem);
       }
     }
 
-    // Create concatenated string based on input pattern
-    let concatString = "";
-    // Check if input matches Example C pattern (all alphabets, some multi-character)
-    const isExampleC = inputArray.every(item => /^[a-zA-Z]+$/.test(item)) && 
-                      inputArray.some(item => item.length > 1);
-    
-    if (isExampleC) {
-      // For Example C: concatenate letters with alternating case
-      const allChars = alphabets.join('');
-      const processedChars = [];
+    // Generate concat_string by processing all alphabetic characters
+    const allChars = alphabets.join('').split('');
+    let concatString = '';
+
+    for (let i = allChars.length - 1; i >= 0; i--) {
+      const char = allChars[i];
+      const positionFromEnd = allChars.length - 1 - i;
       
-      // Process in reverse order to get "EoDdCbAa" pattern
-      for (let i = allChars.length - 2; i >= 0; i -= 2) {
-        if (i >= 0) {
-          processedChars.push(allChars[i].toUpperCase() + allChars[i + 1].toLowerCase());
-        }
+      if (positionFromEnd % 2 === 0) {
+        concatString += char.toUpperCase();
+      } else {
+        concatString += char.toLowerCase();
       }
-      // Add the first character if odd length
-      if (allChars.length % 2 !== 0) {
-        processedChars.push(allChars[0].toUpperCase());
-      }
-      concatString = processedChars.join('');
-    } else if (alphabets.length >= 3 && !isExampleC) {
-      // For Example B: should be "ByA"
-      concatString = alphabets[2] + alphabets[1].toLowerCase() + alphabets[0];
-    } else if (alphabets.length === 2) {
-      // For Example A: should be "Ra"
-      concatString = alphabets[1] + alphabets[0].toLowerCase();
     }
 
     res.json({
@@ -89,7 +70,7 @@ app.post("/bfhl", (req, res) => {
       roll_number: "22BCE9705",
       odd_numbers: oddNumbers,
       even_numbers: evenNumbers,
-      alphabets: alphabets,
+      alphabets: alphabets.map(a => a.toUpperCase()),
       special_characters: specialCharacters,
       sum: String(sum),
       concat_string: concatString
@@ -102,7 +83,7 @@ app.post("/bfhl", (req, res) => {
   }
 });
 
-// Optional: GET endpoint for testing (if required)
+// GET endpoint for testing
 app.get("/bfhl", (req, res) => {
   res.json({
     operation_code: 1
