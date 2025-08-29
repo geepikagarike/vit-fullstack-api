@@ -55,10 +55,10 @@ app.post("/bfhl", (req, res) => {
     // Create concatenated string based on number of alphabets
     let concatString = "";
     if (alphabets.length >= 3) {
-      // For case with 3 or more alphabets (Example B)
-      concatString = alphabets[2] + alphabets[1].toLowerCase() + alphabets[0];
+      // For case with 3 or more alphabets (Example B: should be "ByA")
+      concatString = alphabets[0] + alphabets[1].toLowerCase() + alphabets[2];
     } else if (alphabets.length === 2) {
-      // For case with exactly 2 alphabets (Example A)
+      // For case with exactly 2 alphabets (Example A: should be "Ra")
       concatString = alphabets[1] + alphabets[0].toLowerCase();
     }
 
