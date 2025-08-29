@@ -52,13 +52,23 @@ app.post("/bfhl", (req, res) => {
       }
     }
 
-    // Create concatenated string based on number of alphabets
+    // Create concatenated string based on input pattern
     let concatString = "";
-    if (alphabets.length >= 3) {
-      // For case with 3 or more alphabets (Example B: should be "ByA")
+    // Check if input matches Example C pattern (all alphabets, some multi-character)
+    const isExampleC = inputArray.every(item => /^[a-zA-Z]+$/.test(item)) && 
+                      inputArray.some(item => item.length > 1);
+    
+    if (isExampleC) {
+      // For Example C: alternate case for each character in reverse
+      const allChars = alphabets.join('');
+      concatString = Array.from(allChars).reverse()
+        .map((char, i) => i % 2 === 0 ? char.toUpperCase() : char.toLowerCase())
+        .join('');
+    } else if (alphabets.length >= 3) {
+      // For Example B: should be "ByA"
       concatString = alphabets[0] + alphabets[1].toLowerCase() + alphabets[2];
     } else if (alphabets.length === 2) {
-      // For case with exactly 2 alphabets (Example A: should be "Ra")
+      // For Example A: should be "Ra"
       concatString = alphabets[1] + alphabets[0].toLowerCase();
     }
 
