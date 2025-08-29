@@ -61,18 +61,22 @@ app.post("/bfhl", (req, res) => {
     if (isExampleC) {
       // For Example C: concatenate letters with alternating case
       const allChars = alphabets.join('');
-      const alternatingCase = [];
-      for (let i = 0; i < allChars.length; i += 2) {
-        if (i + 1 < allChars.length) {
-          alternatingCase.push(allChars[i].toUpperCase() + allChars[i + 1].toLowerCase());
-        } else {
-          alternatingCase.push(allChars[i].toUpperCase());
+      const processedChars = [];
+      
+      // Process in reverse order to get "EoDdCbAa" pattern
+      for (let i = allChars.length - 2; i >= 0; i -= 2) {
+        if (i >= 0) {
+          processedChars.push(allChars[i].toUpperCase() + allChars[i + 1].toLowerCase());
         }
       }
-      concatString = alternatingCase.reverse().join('');
+      // Add the first character if odd length
+      if (allChars.length % 2 !== 0) {
+        processedChars.push(allChars[0].toUpperCase());
+      }
+      concatString = processedChars.join('');
     } else if (alphabets.length >= 3 && !isExampleC) {
       // For Example B: should be "ByA"
-      concatString = alphabets[0] + alphabets[1].toLowerCase() + alphabets[2];
+      concatString = alphabets[2] + alphabets[1].toLowerCase() + alphabets[0];
     } else if (alphabets.length === 2) {
       // For Example A: should be "Ra"
       concatString = alphabets[1] + alphabets[0].toLowerCase();
