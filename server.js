@@ -52,10 +52,10 @@ app.post("/bfhl", (req, res) => {
       }
     }
 
-    // Create concatenated string in "ByA" format
+    // Create concatenated string
     let concatString = "";
-    if (alphabets.length >= 3) {
-      concatString = alphabets[2] + alphabets[1].toLowerCase() + alphabets[0];
+    if (alphabets.length >= 2) {
+      concatString = alphabets[1] + alphabets[0].toLowerCase();
     }
 
     res.json({
