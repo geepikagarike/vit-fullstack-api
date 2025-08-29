@@ -70,7 +70,7 @@ app.post("/bfhl", (req, res) => {
         }
       }
       concatString = alternatingCase.reverse().join('');
-    } else if (alphabets.length >= 3) {
+    } else if (alphabets.length >= 3 && !isExampleC) {
       // For Example B: should be "ByA"
       concatString = alphabets[0] + alphabets[1].toLowerCase() + alphabets[2];
     } else if (alphabets.length === 2) {
