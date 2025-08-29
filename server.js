@@ -52,12 +52,11 @@ app.post("/bfhl", (req, res) => {
       }
     }
 
-    // Create concatenated string from alphabets in reverse order
-    const tempAlphabets = [...alphabets]; // Create a copy to avoid modifying the original array
-    const concatString = tempAlphabets
-      .reverse()
-      .map((char, index) => index === 1 ? char.toLowerCase() : char)
-      .join("");
+    // Create concatenated string in "ByA" format
+    let concatString = "";
+    if (alphabets.length >= 3) {
+      concatString = alphabets[2] + alphabets[1].toLowerCase() + alphabets[0];
+    }
 
     res.json({
       is_success: true,
