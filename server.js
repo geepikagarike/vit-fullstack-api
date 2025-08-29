@@ -54,7 +54,10 @@ app.post("/bfhl", (req, res) => {
 
     // Create concatenated string from alphabets in reverse order
     const tempAlphabets = [...alphabets]; // Create a copy to avoid modifying the original array
-    const concatString = tempAlphabets.reverse().join("");
+    const concatString = tempAlphabets
+      .reverse()
+      .map((char, index) => index === 1 ? char.toLowerCase() : char)
+      .join("");
 
     res.json({
       is_success: true,
